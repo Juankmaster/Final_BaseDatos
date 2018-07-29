@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio de sesión</title>
     <link rel="stylesheet" href="css/styles.css"/>
-    <!-- <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kaushan+Script" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Kaushan+Script|Neucha" rel="stylesheet"> -->
   </head>
   <body>
@@ -17,22 +17,50 @@
         <input type="password" id="pass" placeholder="Contraseña..." />
         <button id="login" class="loginButton">Ingresar</button>
       </div>
+      <div>
+        <p id="mensajeUsuarios" class="mensajeInicio"></p>
+        <p id="mensajeSesion" class="mensajeInicio"></p>
+      </div>
     </div>
     <script src="js/jquery.js"></script>
     <script>
-        var emailUsuario = $('#user')
-        var pass = $('#pass')
+        // var emailUsuario = $('#user')
+        // var pass = $('#pass')
+        // $('.loginButton').on('click', function(event) {
+        //     if (emailUsuario.val() != "" && pass.val() != "") {
+            //     $.get('/usuarios/login',{user: emailUsuario.val(), pass: pass.val()}, function(response) {
+            //         if (response == "OK") {
+            //             // window.location.href = "http://localhost:8082/main.html"
+            //             alert("porfin")
+            //         }else {
+            //           alert("Clave y/o usuario no validos")
+                    // }
+        var emailDeUsuario = $('#user');
+        var pass = $('#pass');
         $('.loginButton').on('click', function(event) {
-            if (emailUsuario.val() != "" && pass.val() != "") {
-                $.get('/usuarios/login',{user: emailUsuario.val(), pass: pass.val()}, function(response) {
-                    if (response == "OK") {
-                        window.location.href = "http://localhost:8082/main.html"
+        if (emailDeUsuario.val() != "" && pass.val() != "") {
+            $.ajax({
+                url: '/usuarios/login',
+                method: 'POST',
+                data: {
+                    email: emailDeUsuario.val(),
+                    clave : pass.val()
+                },
+                success: function(res) {
+                    mostrarMensaje(res);
+                    if (res == "OK") {
+                         window.location.href = "http://localhost:8082/main.html";
                     }
-                })
-            } else {
-                alert("Complete todos los campos")
-            }
-        })
+                }
+            })
+        } else {
+            alert("Complete todos los campos");
+        }
+
+         })
+         function mostrarMensaje(msj){
+    $('#mensajeSesion').html(msj);
+}
     </script>
   </body>
 </html>

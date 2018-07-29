@@ -2,31 +2,34 @@ const Router = require('express').Router();
 const Usuario = require('./modeloUser.js')
 
 //Metodo para consultar un usuario en el sistema
-Router.get('/login', function(req ,res) {
+Router.post('/login', function(req ,res) {
   let usuario = req.body.email
   let clave = req.body.clave
-  //let sesion = req.sesion
-Usuario.find({email:usuario, clave:clave}).exec(function(err,usuarioValido){
+  let sesion= req.session
+Usuario.find({email:usuario, clave:clave}, function(err,usuarioValido){
+//  req.session = usuarioValido[0]["email"];
+  //sesion.user= usuarioValido._id
+   console.log("hola" )
         if(err){
             res.status(500)
             res.send(err)
         }else{
           if (usuarioValido.length == 1) {
-              //sesion.id_usuario = usuarioValido[0]['_id']
-              res.send("Usuario y/o contraseña no validosss")
+            req.sesion_id=usuarioValido[0]['_id']
+                res.send("OK")
 
           }else {
-            res.send("OK")
+            res.send("Usuario y/o contraseña no validosss")
           }
         }
-    })
-})
 
+})
+})
 //Crear un Usuario
 Router.get('/new', function(req ,res) {
   let usuario= new Usuario({
       id_usuario:Math.floor(Math.random()*50),
-      nombre:'julio javier',
+      nombre:'javier velasquez',
       email:'javier@gmail.com',
       clave:'12345'
   })

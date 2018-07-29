@@ -3,8 +3,9 @@ const Eventos = require('./modeloEventos.js')
 
 // Obtener todos los eventos de un usuario
 Router.get('/cargar_eventos', function(req, res) {
-    sesionUser = req.session.id_usuario
-    Eventos.find({id_usuario:sesionUser}).exec(function(err, docs) {
+    //sesionUser = req.session.sesion_id
+  //  console.log(sesionUser)
+    Eventos.find({id_usuario:'5b5ce35d27cc5219305607a8'}).exec(function(err, docs) {
         if (err) {
             res.status(500)
             res.json(err)
@@ -14,12 +15,12 @@ Router.get('/cargar_eventos', function(req, res) {
 })
 
 // Agregar a un Evento a un usuario
-Router.post('/nuevo_evento', function(req, res) {
+Router.get('/nuevo_evento', function(req, res) {
     let evento = new Eventos({
-        id_usuario: req.session.id_usuario,
-        title: req.body.title,
-        start: req.body.start,
-        end: req.body.end
+        id_usuario:'5b5ce35d27cc5219305607a8', //req.session.id_usuario,
+        title: req.query.title,
+        start: req.query.start,
+        end: req.query.end
     })
     evento.save(function(error) {
         if (error) {
@@ -31,24 +32,30 @@ Router.post('/nuevo_evento', function(req, res) {
 })
 
 // Eliminar evento por su id
-Router.get('/eliminar_evento/:id', function(req, res) {
-    let eventoID = req.query._id;
-    //req.params.id
-    Eventos.remove({userId: eventoID}, function(error) {
-        if(error) {
-            res.status(500)
-            res.json(error)
-        }
-        res.send("Registro eliminado")
-    })
+Router.post('/eliminar_evento', function(req, res) {
+    let eventoID = req.query._id
+    console.log(eventoID)
+    Eventos.findById(eventoID, (err, evento) => {
+          if (err) {
+            return res.status(500).send({message: 'Error al eliminar evento'})
+          }else{
+            evento.remove(err => {
+              if (err) {
+                return res.status(500).send({message: 'Error al eliminar evento'})
+              }else{
+                res.send('Evento eliminado correctamente')
+              }
+            })
+          }
+        })
 })
 
-//Funcion para actualizar evnto
-Router.post('/actualizar_evento/:id', function(req, res) {
+//Funcion para actualizar evento
+Router.post('/actualizar_evento', function(req, res) {
   let eventoID = req.query._id,
       start = req.body.start,
       end = req.body.end
-          Evento.update({_id: eventoID}, {
+          Eventos.update({_id: eventoID}, {
             start: start,
             end: end
           }, (err) => {
