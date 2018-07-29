@@ -10,15 +10,15 @@ const 	express = require('express'),
         app.use(bodyParser.urlencoded({extended: false}))
         app.use(express.static('client'))
         app.use(morgan('dev'))
+        
+        app.use(session({
+          secret: '12345',
+          resave: false,
+          saveUninitialized: true
+        }));
+
         app.use('/usuarios', RutaUser)
         app.use('/eventos', RutaEvents)
 
-        app.use(session({
-        	secret: '12345',
-        	cookie: {maxAge: 72000000},
-        	resave: false,
-          cookie: {maxAge: 72000000},
-        	saveUninitialized: true
-        }));
 
         module.exports = app

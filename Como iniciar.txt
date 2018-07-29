@@ -1,0 +1,14 @@
+1.Ejecutar node.js con el comando npm start
+
+2.Ejecutar localhost:8082/usuarios/new
+  Esta ruta creara el  usuario:
+  -Nombre:juan carlos
+  -Usuario:juank@gmail.com
+  -Clave 12345.
+2.1.Reiniciar el servidor.
+
+3.Logearse con  usuario y clave.
+
+4.Crear eventos a este usuario.
+
+5.El nombre con que se creara la  base es:agenda1 en el puerto:8082.

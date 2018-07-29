@@ -7,6 +7,6 @@
   	  email: {type: String, unique: true,required: true, lowercase: true},
   	  clave: {type: String, required: true, lowercase: true}
 	})
-
+//Exportar el modulo
   let UserModel = mongoose.model('Usuario', UserSchema)
   module.exports = UserModel

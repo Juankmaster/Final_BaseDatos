@@ -139,6 +139,7 @@ class EventManager {
           $.post(url, data, (response) => {
             alert(response)
           })
+            $('.delete').find('img').attr('src', "img/delete.png");
     }
   }
     const Manager = new EventManager()

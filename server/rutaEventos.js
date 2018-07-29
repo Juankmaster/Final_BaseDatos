@@ -3,9 +3,8 @@ const Eventos = require('./modeloEventos.js')
 
 // Obtener todos los eventos de un usuario
 Router.get('/cargar_eventos', function(req, res) {
-    //sesionUser = req.session.sesion_id
-  //  console.log(sesionUser)
-    Eventos.find({id_usuario:'5b5ce35d27cc5219305607a8'}).exec(function(err, docs) {
+    sesionUser = req.session.id_usuario
+    Eventos.find({id_usuario:sesionUser}).exec(function(err, docs) {
         if (err) {
             res.status(500)
             res.json(err)
@@ -14,10 +13,10 @@ Router.get('/cargar_eventos', function(req, res) {
     })
 })
 
-// Agregar a un Evento a un usuario
+// Agregar  un Evento a un usuario
 Router.get('/nuevo_evento', function(req, res) {
     let evento = new Eventos({
-        id_usuario:'5b5ce35d27cc5219305607a8', //req.session.id_usuario,
+        id_usuario:req.session.id_usuario,
         title: req.query.title,
         start: req.query.start,
         end: req.query.end
@@ -67,9 +66,5 @@ Router.post('/actualizar_evento', function(req, res) {
           })
 })
 
-//Funcion para recurso no existente
-// Router.all('/', function(req, res) {
-//   return res.send({message: 'Error al mostrar el recurso solicitado.'}).end()
-// })
-
+//Exportar el modulo
 module.exports = Router
